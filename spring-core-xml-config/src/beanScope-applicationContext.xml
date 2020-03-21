@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xmlns:content="http://www.springframework.org/schema/context"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans
+	   http://www.springframework.org/schema/beans/spring-beans.xsd
+	   http://www.springframework.org/schema/context
+	   http://www.springframework.org/schema/context/spring-context.xsd">
+	
+	<!-- Load the properties file -->
+	<content:property-placeholder location="classpath:sport.properties"/>
+	
+	<!-- This is for assignment 1 -->
+	<bean id="baseballCoach" class="com.assignment1.BaseballCoach" scope="singleton"></bean>
+	<bean id="trackCoach" class="com.assignment1.TrackCoach" scope="singleton"></bean>
+	
+	<!-- This is for assignment 2 dependency injection -->
+	<bean id="dependencyHappyFortuneService" 
+		  class="com.assignment2.dependencyinjection.HappyFortuneService" scope="singleton"></bean>
+	
+	<bean id="dependencyBaseballCoach" 
+		  class="com.assignment2.dependencyinjection.BaseballCoach" scope="singleton">
+		<constructor-arg ref="dependencyHappyFortuneService"></constructor-arg>
+	</bean>
+	
+	<bean id="dependencyCricketCoach" 
+		  class="com.assignment2.dependencyinjection.CricketCoach" scope="prototype">
+		<property name="fortuneService" ref="dependencyHappyFortuneService"/>
+		<property name="teamName" value="${team}"/>
+		<property name="emailId" value="${email}"/>
+	</bean>
+	
+	<bean id="dependencyTrackCoach" 
+		  class="com.assignment2.dependencyinjection.TrackCoach" scope="singleton">
+		<constructor-arg ref="dependencyHappyFortuneService"></constructor-arg>
+	</bean>
+</beans> 
